@@ -12,12 +12,16 @@ import javax.swing.*;
  * Facultad de Ingeniería - Universidad de Deusto (2014)
  */
 public class VentanaJuego extends JFrame {
+	
 	private static final long serialVersionUID = 1L;  // Para serialización
 	JPanel pPrincipal;         // Panel del juego (layout nulo)
 	MundoJuego miMundo;        // Mundo del juego
 	CocheJuego miCoche;        // Coche del juego
 	MiRunnable miHilo = null;  // Hilo del bucle principal de juego	
-
+	
+	boolean [] teclasPulsadas; // Array para controlar los cursores presionados
+	static final int NUMTECLAS=4; //Numero de teclas para el array
+	
 	/** Constructor de la ventana de juego. Crea y devuelve la ventana inicializada
 	 * sin coches dentro
 	 */
@@ -44,6 +48,10 @@ public class VentanaJuego extends JFrame {
 		// Formato de ventana
 		setSize( 1000, 750 );
 		setResizable( false );
+		
+		//Inicializar array teclasPulsadas
+		teclasPulsadas= new boolean[NUMTECLAS];
+		
 		// Escuchadores de botones
 		bAcelerar.addActionListener( new ActionListener() {
 			@Override
@@ -81,22 +89,53 @@ public class VentanaJuego extends JFrame {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_UP: {
 						miCoche.acelera( +5, 1 );
+						teclasPulsadas[0]=true; //array de teclaspulsadas
 						break;
 					}
 					case KeyEvent.VK_DOWN: {
 						miCoche.acelera( -5, 1 );
+						teclasPulsadas[1]=true;
 						break;
 					}
 					case KeyEvent.VK_LEFT: {
 						miCoche.gira( +10 );
+						teclasPulsadas[2]=true;
 						break;
 					}
 					case KeyEvent.VK_RIGHT: {
 						miCoche.gira( -10 );
+						teclasPulsadas[3]=true;
 						break;
 					}
 				}
 			}
+		/*	//EVENTO RELEASED (Hecho x mi)
+			public void keyReleased(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_UP: {
+						miCoche.acelera( +5, 1 );
+						teclasPulsadas[0]=false; //array de teclaspulsadas
+						break;
+					}
+					case KeyEvent.VK_DOWN: {
+						miCoche.acelera( -5, 1 );
+						teclasPulsadas[1]=false;
+						break;
+					}
+					case KeyEvent.VK_LEFT: {
+						miCoche.gira( +10 );
+						teclasPulsadas[2]=false;
+						break;
+					}
+					case KeyEvent.VK_RIGHT: {
+						miCoche.gira( -10 );
+						teclasPulsadas[3]=false;
+						break;
+					}
+				}
+			}
+			*/
+			
 		});
 		pPrincipal.setFocusable(true);
 		pPrincipal.requestFocus();
