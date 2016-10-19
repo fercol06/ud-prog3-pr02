@@ -19,13 +19,14 @@ public class VentanaJuego extends JFrame {
 	CocheJuego miCoche;        // Coche del juego
 	MiRunnable miHilo = null;  // Hilo del bucle principal de juego	
 	
-	boolean [] teclasPulsadas; // Array para controlar los cursores presionados
-	static final int NUMTECLAS=4; //Numero de teclas para el array
+	boolean aTeclas [] = new boolean[4]; // Array para controlar los cursores  pos[0]: izda
+	
 	
 	/** Constructor de la ventana de juego. Crea y devuelve la ventana inicializada
 	 * sin coches dentro
 	 */
 	public VentanaJuego() {
+		for (int i=0; i<aTeclas ; )
 		// Liberación de la ventana por defecto al cerrar
 		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		// Creación contenedores y componentes
@@ -48,9 +49,6 @@ public class VentanaJuego extends JFrame {
 		// Formato de ventana
 		setSize( 1000, 750 );
 		setResizable( false );
-		
-		//Inicializar array teclasPulsadas
-		teclasPulsadas= new boolean[NUMTECLAS];
 		
 		// Escuchadores de botones
 		bAcelerar.addActionListener( new ActionListener() {
@@ -82,59 +80,63 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 		
+		//Released
+		pPrincipal.addKeyListener( new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_UP: {
+						//miCoche.acelera( +5, 1 );
+						aTeclas[1]=false; //array 
+						break;
+					}
+					case KeyEvent.VK_DOWN: {
+						//miCoche.acelera( -5, 1 );
+						aTeclas[3]=false;
+						break;
+					}
+					case KeyEvent.VK_LEFT: {
+						//miCoche.gira( +10 );
+						aTeclas[0]=false;
+						break;
+					}
+					case KeyEvent.VK_RIGHT: {
+						//miCoche.gira( -10 );
+						aTeclas[2]=false;
+						break;
+					}
+				}
+			}
+			
+		});
+		
 		// Añadido para que también se gestione por teclado con el KeyListener
 		pPrincipal.addKeyListener( new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_UP: {
-						miCoche.acelera( +5, 1 );
-						teclasPulsadas[0]=true; //array de teclaspulsadas
+						//miCoche.acelera( +5, 1 );
+						aTeclas[1]=true; //array 
 						break;
 					}
 					case KeyEvent.VK_DOWN: {
-						miCoche.acelera( -5, 1 );
-						teclasPulsadas[1]=true;
+						//miCoche.acelera( -5, 1 );
+						aTeclas[3]=true;
 						break;
 					}
 					case KeyEvent.VK_LEFT: {
-						miCoche.gira( +10 );
-						teclasPulsadas[2]=true;
+						//miCoche.gira( +10 );
+						aTeclas[0]=true;
 						break;
 					}
 					case KeyEvent.VK_RIGHT: {
-						miCoche.gira( -10 );
-						teclasPulsadas[3]=true;
+						//miCoche.gira( -10 );
+						aTeclas[2]=true;
 						break;
 					}
 				}
 			}
-		/*	//EVENTO RELEASED (Hecho x mi)
-			public void keyReleased(KeyEvent e) {
-				switch (e.getKeyCode()) {
-					case KeyEvent.VK_UP: {
-						miCoche.acelera( +5, 1 );
-						teclasPulsadas[0]=false; //array de teclaspulsadas
-						break;
-					}
-					case KeyEvent.VK_DOWN: {
-						miCoche.acelera( -5, 1 );
-						teclasPulsadas[1]=false;
-						break;
-					}
-					case KeyEvent.VK_LEFT: {
-						miCoche.gira( +10 );
-						teclasPulsadas[2]=false;
-						break;
-					}
-					case KeyEvent.VK_RIGHT: {
-						miCoche.gira( -10 );
-						teclasPulsadas[3]=false;
-						break;
-					}
-				}
-			}
-			*/
 			
 		});
 		pPrincipal.setFocusable(true);
@@ -190,6 +192,7 @@ public class VentanaJuego extends JFrame {
 		public void run() {
 			// Bucle principal forever hasta que se pare el juego...
 			while (sigo) {
+				
 				// Mover coche
 				miCoche.mueve( 0.040 );
 				// Chequear choques
@@ -198,6 +201,15 @@ public class VentanaJuego extends JFrame {
 					miMundo.rebotaHorizontal(miCoche);
 				if (miMundo.hayChoqueVertical(miCoche)) // Espejo vertical si choca en Y
 					miMundo.rebotaVertical(miCoche);
+				//comprobar teclas
+				if (aTeclas[0])
+					miCoche.gira(+10);
+				if (aTeclas[1])
+					miCoche.acelera( +5, 1 );
+				if (aTeclas[2])
+					miCoche.gira(+10);
+				if (aTeclas[3])
+					miCoche.acelera( +5, 1 );
 				// Dormir el hilo 40 milisegundos
 				try {
 					Thread.sleep( 40 );
