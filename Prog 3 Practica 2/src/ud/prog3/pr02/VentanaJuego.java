@@ -80,6 +80,42 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 		
+		
+		
+		// Añadido para que también se gestione por teclado con el KeyListener
+		pPrincipal.addKeyListener( new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_UP: {
+						//miCoche.acelera( +5, 1 );
+						double f = miCoche.fuerzaAceleracionAdelante();
+						MundoJuego.aplicarFuerza(f, miCoche);
+						aTeclas[1]=true; //array 
+						break;
+					}
+					case KeyEvent.VK_DOWN: {
+						//miCoche.acelera( -5, 1 );
+						double f = miCoche.fuerzaAceleracionAtras();
+						MundoJuego.aplicarFuerza(f, miCoche);
+						aTeclas[3]=true;
+						break;
+					}
+					case KeyEvent.VK_LEFT: {
+						//miCoche.gira( +10 );
+						aTeclas[0]=true;
+						break;
+					}
+					case KeyEvent.VK_RIGHT: {
+						//miCoche.gira( -10 );
+						aTeclas[2]=true;
+						break;
+					}
+				}
+			}
+			
+		});
+		
 		//Released
 		pPrincipal.addKeyListener( new KeyAdapter() {
 			@Override
@@ -107,38 +143,9 @@ public class VentanaJuego extends JFrame {
 					}
 				}
 			}
-			
-		});
+					
+		});		
 		
-		// Añadido para que también se gestione por teclado con el KeyListener
-		pPrincipal.addKeyListener( new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				switch (e.getKeyCode()) {
-					case KeyEvent.VK_UP: {
-						//miCoche.acelera( +5, 1 );
-						aTeclas[1]=true; //array 
-						break;
-					}
-					case KeyEvent.VK_DOWN: {
-						//miCoche.acelera( -5, 1 );
-						aTeclas[3]=true;
-						break;
-					}
-					case KeyEvent.VK_LEFT: {
-						//miCoche.gira( +10 );
-						aTeclas[0]=true;
-						break;
-					}
-					case KeyEvent.VK_RIGHT: {
-						//miCoche.gira( -10 );
-						aTeclas[2]=true;
-						break;
-					}
-				}
-			}
-			
-		});
 		pPrincipal.setFocusable(true);
 		pPrincipal.requestFocus();
 		pPrincipal.addFocusListener( new FocusAdapter() {
