@@ -204,7 +204,12 @@ public class MundoJuego {
 		int contarChoque=0;
 		for(int i=0;i<aEstrellas.size();i++){
 			double distancia;
-			distancia=Math.sqrt(Math.pow(aEstrellas.get(i).getPosX()-miCoche.getPosX(), 2),Math.pow(aEstrellas.get(i).getPosX()-miCoche.getPosY(), 2));
+			distancia=Math.sqrt(Math.pow(aEstrellas.get(i).getX()-miCoche.getPosX(), 2)+Math.pow(aEstrellas.get(i).getY()-miCoche.getPosY(), 2));
+			if(distancia<JLabelEstrella.RADIO_ESFERA_ESTRELLA+JLabelCoche.RADIO_ESFERA_COCHE){
+				contarChoque++;
+				aEstrellas.get(i).getGrafico().setVisible(false);
+				aEstrellas.remove(i);
+			}
 		}
 		return 0;
 	}
