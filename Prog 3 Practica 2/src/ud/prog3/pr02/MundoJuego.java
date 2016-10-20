@@ -17,6 +17,7 @@ public class MundoJuego {
 
 	private ArrayList <JLabelEstrella> aEstrellas;
 	private long ultimoMilisegundo;
+	private int estrellasPerdidas = 0;
 	
 	/** Construye un mundo de juego
 	 * @param panel	Panel visual del juego
@@ -172,5 +173,34 @@ public class MundoJuego {
 			ultimoMilisegundo = estrella.getHoraCreacion();
 		}
 	}
-	
+	/** Quita todas las estrellas que lleven en pantalla demasiado tiempo
+	* y rota 10 grados las que sigan estando
+	* @param maxTiempo Tiempo máximo para que se mantengan las estrellas (msegs)
+	* @return Número de estrellas quitadas */
+	public int quitaYRotaEstrellas( long maxTiempo ){
+		int eliminarEstrellas = 0;
+        int i = aEstrellas.size() - 1;
+        while (i >= 0) {
+            JLabelEstrella estrella = aEstrellas.get(i);
+            if (System.currentTimeMillis() - estrella.getHoraCreacion() > maxTiempo) {
+               	panel.remove(estrella);
+                panel.repaint();
+                aEstrellas.remove(estrella);
+                eliminarEstrellas++;
+                estrellasPerdidas++;
+            } else {
+            	estrella.girar(10.0); //TODO: implementar JLabalEstrella
+            	estrella.repaint();
+            }
+           i--;
+        }
+        return eliminarEstrellas;
+	}
+	/** Calcula si hay choques del coche con alguna estrella (o varias). Se considera el choque si
+	* se tocan las esferas lógicas del coche y la estrella. Si es así, las elimina.
+	* @return Número de estrellas eliminadas
+	*/
+	public int choquesConEstrellas(){
+		return 0;
+	}
 }
