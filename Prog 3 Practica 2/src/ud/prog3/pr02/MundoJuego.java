@@ -162,7 +162,7 @@ public class MundoJuego {
 	/** Si han pasado más de 1,2 segundos desde la última,
 	* crea una estrella nueva en una posición aleatoria y la añade al mundo y al panel visual */
 	public void creaEstrella(){
-		if(System.currentTimeMillis()-ultimoMilisegundo > 1200){
+		if(System.currentTimeMillis()-ultimoMilisegundo >= 1200){
 			//aEstrellas.add(new JLabelEstrella());
 			JLabelEstrella estrella = new JLabelEstrella();
 			Random r  = new Random();
@@ -201,6 +201,11 @@ public class MundoJuego {
 	* @return Número de estrellas eliminadas
 	*/
 	public int choquesConEstrellas(){
+		int contarChoque=0;
+		for(int i=0;i<aEstrellas.size();i++){
+			double distancia;
+			distancia=Math.sqrt(Math.pow(aEstrellas.get(i).getPosX()-miCoche.getPosX(), 2),Math.pow(aEstrellas.get(i).getPosX()-miCoche.getPosY(), 2));
+		}
 		return 0;
 	}
 }

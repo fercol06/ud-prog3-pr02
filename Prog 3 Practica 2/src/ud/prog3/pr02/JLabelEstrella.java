@@ -36,6 +36,20 @@ public class JLabelEstrella extends JLabel {
 		// Esto sería útil cuando hay algún problema con el gráfico: borde de color del JLabel
 		// setBorder( BorderFactory.createLineBorder( Color.yellow, 4 ));
 	}
+	public JLabelEstrella(int posX, int posY) {
+		// Esto se haría para acceder por sistema de ficheros
+		// 		super( new ImageIcon( "bin/ud/prog3/pr00/coche.png" ) );
+		// Esto se hace para acceder tanto por recurso (jar) como por fichero
+		try {
+			setIcon( new ImageIcon( JLabelCoche.class.getResource( "img/estrella.png" ).toURI().toURL() ) );
+		} catch (Exception e) {
+			System.err.println( "Error en carga de recurso: estrella.png no encontrado" );
+			e.printStackTrace();
+		}
+		setBounds( posX, posY, TAMANYO_ESTRELLA, TAMANYO_ESTRELLA );
+		// Esto sería útil cuando hay algún problema con el gráfico: borde de color del JLabel
+		// setBorder( BorderFactory.createLineBorder( Color.yellow, 4 ));
+	}
 	
 	public long getHoraCreacion() {
 		return horaCreacion;
