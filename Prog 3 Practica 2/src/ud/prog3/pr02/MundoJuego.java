@@ -1,5 +1,8 @@
 package ud.prog3.pr02;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.JPanel;
 
 /** "Mundo" del juego del coche.
@@ -11,12 +14,17 @@ import javax.swing.JPanel;
 public class MundoJuego {
 	private JPanel panel;  // panel visual del juego
 	CocheJuego miCoche;    // Coche del juego
+
+	private ArrayList <JLabelEstrella> aEstrellas;
+	private long ultimoMilisegundo;
 	
 	/** Construye un mundo de juego
 	 * @param panel	Panel visual del juego
 	 */
 	public MundoJuego( JPanel panel ) {
 		this.panel = panel;
+		aEstrellas = new ArrayList <JLabelEstrella> ();
+		ultimoMilisegundo = System.currentTimeMillis();
 	}
 
 	/** Crea un coche nuevo y lo añade al mundo y al panel visual
@@ -150,4 +158,19 @@ public class MundoJuego {
 			coche.acelera( aceleracion, 0.04 );
 		}
 	}
+	/** Si han pasado más de 1,2 segundos desde la última,
+	* crea una estrella nueva en una posición aleatoria y la añade al mundo y al panel visual */
+	public void creaEstrella(){
+		if(System.currentTimeMillis()-ultimoMilisegundo > 1200){
+			//aEstrellas.add(new JLabelEstrella());
+			JLabelEstrella estrella = new JLabelEstrella();
+			Random r  = new Random();
+			estrella.setLocation( r.nextInt(this.panel.getWidth() -40) , r.nextInt(this.panel.getHeight() -40));
+			panel.add( estrella);  // Añade al panel visual
+			estrella.repaint();  // Refresca el dibujado del coche
+			aEstrellas.add(estrella);
+			ultimoMilisegundo = estrella.getHoraCreacion();
+		}
+	}
+	
 }

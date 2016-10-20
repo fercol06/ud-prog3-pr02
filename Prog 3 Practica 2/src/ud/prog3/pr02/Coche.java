@@ -113,31 +113,33 @@ public class Coche {
 	* @return Fuerza de aceleración en Newtixels
 	*/
 	public double fuerzaAceleracionAdelante() {
-		if (miVelocidad<=-150) return FUERZA_BASE_ADELANTE;
+		if (miVelocidad<=-150) 
+			return FUERZA_BASE_ADELANTE;
 		else if (miVelocidad<=0)
 			return FUERZA_BASE_ADELANTE*(-miVelocidad/150*0.5+0.5);
 		else if (miVelocidad<=250)
 			return FUERZA_BASE_ADELANTE*(miVelocidad/250*0.5+0.5);
 		else if (miVelocidad<=750)
 			return FUERZA_BASE_ADELANTE;
-		else return FUERZA_BASE_ADELANTE*(-(miVelocidad-1000)/250);
+		else 
+			return FUERZA_BASE_ADELANTE*(-(miVelocidad-1000)/250);
 	}
 	
 	/** Devuelve la fuerza de decelarcion del coche, de acuerdo al motor definido en la práctica 2
 	* @return Fuerza de deceleracion en Newtixels
 	*/
-	
-	
-	
 	public double fuerzaAceleracionAtras() {
-		if (miVelocidad<=-350) return FUERZA_BASE_ATRAS *((miVelocidad + 500.0) / 150);
+		if (miVelocidad<=-350) 
+			return FUERZA_BASE_ATRAS *((miVelocidad + 500.0) / 150 +1);//
 		else if (miVelocidad<=-200)
 			return FUERZA_BASE_ATRAS;
 		else if (miVelocidad<=0)
+			//return FUERZA_BASE_ATRAS*((miVelocidad +200 / 200.0 * 0.7)+ 0.3);
 			return FUERZA_BASE_ATRAS*((-miVelocidad) / 200.0 * 0.7 + 0.3);
 		else if (miVelocidad<=250)
 			return FUERZA_BASE_ATRAS*(miVelocidad / 250.0 * 0.55 + 0.3);
-		else return 850.0; //devuelve el 85%
+		else 
+			return 850.0; //devuelve el 85%
 		
 	}
 }

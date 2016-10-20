@@ -19,14 +19,20 @@ public class VentanaJuego extends JFrame {
 	CocheJuego miCoche;        // Coche del juego
 	MiRunnable miHilo = null;  // Hilo del bucle principal de juego	
 	
-	boolean aTeclas [] = new boolean[4]; // Array para controlar los cursores  pos[0]: izda
+	boolean aTeclas [] = new boolean[4]; // Array para controlar los cursores
+	//pos[0]: alante  	pos[2]: izda
+	//pos[1]: atras  	pos[3]: drch
+	
 	
 	
 	/** Constructor de la ventana de juego. Crea y devuelve la ventana inicializada
 	 * sin coches dentro
 	 */
 	public VentanaJuego() {
-		for (int i=0; i<aTeclas ; )
+		//inicializo array
+		for(int i=0;i<aTeclas.length;i++){
+			aTeclas[i]=false;
+		}
 		// Liberación de la ventana por defecto al cerrar
 		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		// Creación contenedores y componentes
@@ -89,26 +95,23 @@ public class VentanaJuego extends JFrame {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_UP: {
 						//miCoche.acelera( +5, 1 );
-						double f = miCoche.fuerzaAceleracionAdelante();
-						MundoJuego.aplicarFuerza(f, miCoche);
-						aTeclas[1]=true; //array 
+						
+						aTeclas[0]=true; //array 
 						break;
 					}
 					case KeyEvent.VK_DOWN: {
 						//miCoche.acelera( -5, 1 );
-						double f = miCoche.fuerzaAceleracionAtras();
-						MundoJuego.aplicarFuerza(f, miCoche);
-						aTeclas[3]=true;
+						aTeclas[1]=true;
 						break;
 					}
 					case KeyEvent.VK_LEFT: {
 						//miCoche.gira( +10 );
-						aTeclas[0]=true;
+						aTeclas[2]=true;
 						break;
 					}
 					case KeyEvent.VK_RIGHT: {
 						//miCoche.gira( -10 );
-						aTeclas[2]=true;
+						aTeclas[3]=true;
 						break;
 					}
 				}
@@ -123,22 +126,22 @@ public class VentanaJuego extends JFrame {
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_UP: {
 						//miCoche.acelera( +5, 1 );
-						aTeclas[1]=false; //array 
+						aTeclas[0]=false; //array 
 						break;
 					}
 					case KeyEvent.VK_DOWN: {
 						//miCoche.acelera( -5, 1 );
-						aTeclas[3]=false;
+						aTeclas[1]=false;
 						break;
 					}
 					case KeyEvent.VK_LEFT: {
 						//miCoche.gira( +10 );
-						aTeclas[0]=false;
+						aTeclas[2]=false;
 						break;
 					}
 					case KeyEvent.VK_RIGHT: {
 						//miCoche.gira( -10 );
-						aTeclas[2]=false;
+						aTeclas[3]=false;
 						break;
 					}
 				}
@@ -208,15 +211,23 @@ public class VentanaJuego extends JFrame {
 					miMundo.rebotaHorizontal(miCoche);
 				if (miMundo.hayChoqueVertical(miCoche)) // Espejo vertical si choca en Y
 					miMundo.rebotaVertical(miCoche);
+				
 				//comprobar teclas
 				if (aTeclas[0])
-					miCoche.gira(+10);
+					miCoche.acelera( +5, 1 );
+					double f = miCoche.fuerzaAceleracionAdelante();
+					MundoJuego.aplicarFuerza(f, miCoche);
 				if (aTeclas[1])
-					miCoche.acelera( +5, 1 );
+					miCoche.acelera( -5, 1 );
+					double f2 = miCoche.fuerzaAceleracionAtras();
+					MundoJuego.aplicarFuerza(f2, miCoche);
 				if (aTeclas[2])
-					miCoche.gira(+10);
+					miCoche.gira( +10 );
 				if (aTeclas[3])
-					miCoche.acelera( +5, 1 );
+					miCoche.gira( -10 );
+				
+				miMundo.creaEstrella();
+				
 				// Dormir el hilo 40 milisegundos
 				try {
 					Thread.sleep( 40 );
